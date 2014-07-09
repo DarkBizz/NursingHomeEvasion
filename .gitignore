@@ -217,3 +217,10 @@ pip-log.txt
 #Unity
 Library/
 Temp/
+NursingHomeEvasion-csharp.sln
+NursingHomeEvasion.sln
+Assembly-CSharp-Editor-vs.csproj
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
+NursingHomeEvasion.userprefs
