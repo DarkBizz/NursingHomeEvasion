@@ -9,6 +9,8 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 	public SeniorBehaviour _seniorSelected;
 	public ParticleSystem _cursor; 
 
+	public SeniorConfig _Param;
+
 	private static SeniorManager _instance;
 	public static SeniorManager instance {get {return _instance;}}
 
@@ -62,7 +64,7 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 			bHit = ClickOnTagObject(raysHits,"Door",ref hit);
 			if(bHit) 
 			{
-				_seniorSelected.GoToDestination(hit.collider.gameObject.transform.position);
+				_seniorSelected.GoToDoor(hit.collider.gameObject.GetComponent<DoorBehaviour>());
 				return;
 			}
 		}

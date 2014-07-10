@@ -35,19 +35,31 @@ public class SeniorBehaviour : MonoBehaviour
 		{
 			agent.SetPath(path);
 		}
-
-		//agent.SetDestination(destination);
 	}
 
 	public void GoToDoor(DoorBehaviour door)
 	{
+		Debug.Log("GoToDoor");
 		NavMeshPath pathStart = new NavMeshPath();
 		NavMeshPath pathEnd = new NavMeshPath();
 
 		bool HasPath01 = agent.CalculatePath(door.link.startTransform.position,pathStart);
 		bool HasPath02 = agent.CalculatePath(door.link.endTransform.position,pathEnd);
 
-
+		if(!HasPath01 && !HasPath02) return;
+		else if(!HasPath01 && HasPath02) agent.SetPath(pathEnd);
+		else if(HasPath01 && !HasPath02) agent.SetPath(pathStart);
+		else if( GetPathLength(pathStart) < GetPathLength(pathEnd) ) agent.SetPath(pathStart);
+		else agent.SetPath(pathEnd);
 	}
-	
+
+	private float GetPathLength( NavMeshPath path )
+	{
+		float length = 0;
+		for(int i = 0; i < path.corners.Length - 1; i++)
+		{
+			length += Vector3.Distance(path.corners[i],path.corners[i+1]);
+		}
+		return length;
+	}
 }
