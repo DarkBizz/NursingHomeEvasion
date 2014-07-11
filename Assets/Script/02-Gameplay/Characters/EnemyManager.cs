@@ -10,9 +10,14 @@ public class EnemyManager : MonoBehaviour
 	private static EnemyManager _instance;
 	public static EnemyManager instance {get{ return _instance; }}
 	// Use this for initialization
-	void Start () 
+
+	void Awake ()
 	{
 		_instance = this;
+	}
+	void Start () 
+	{
+
 	}
 	
 	// Update is called once per frame
