@@ -7,6 +7,12 @@ public class SeniorButton : MonoBehaviour {
  	void OnClick()
 	{
 		SeniorManager.instance._seniorSelected = _seniorTarget;
+		_seniorTarget._button = this;
 		CameraController.instance.GoToPosition(_seniorTarget.transform.position);
+	}
+
+	public void DisableButton()
+	{
+		this.gameObject.GetComponent<UIButton>();
 	}
 }

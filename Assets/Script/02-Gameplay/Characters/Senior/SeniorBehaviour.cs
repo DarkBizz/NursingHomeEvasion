@@ -15,6 +15,10 @@ public class SeniorBehaviour : MonoBehaviour
 
 	private float _UnlockDoorTimer = 0;
 
+	public SeniorButton _button;
+
+	public bool busted = false;
+
 	// Use this for initialization
 	void Start () 
 	{
