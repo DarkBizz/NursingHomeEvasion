@@ -59,6 +59,24 @@ MonoBehaviour:
     paddingRight: .124390244
     paddingTop: .193989068
     paddingBottom: .204918027
+  - name: icon_340
+    outer:
+      serializedVersion: 2
+      x: 411
+      y: 172
+      width: 340
+      height: 340
+    inner:
+      serializedVersion: 2
+      x: 411
+      y: 172
+      width: 340
+      height: 340
+    rotated: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   mCoordinates: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}

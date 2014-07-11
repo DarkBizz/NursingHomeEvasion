@@ -7,6 +7,15 @@ public class CameraController  : MonoBehaviour, InputManager.Listener
 	public float _speed = 1;
 	private Camera _camera;
 
+
+	private static CameraController _instance;
+	public static CameraController instance {get{return _instance;}}
+	
+	void Awake ()
+	{
+		_instance = this;
+	}
+
 	// Use this for initialization
 	void Start () 
 	{
