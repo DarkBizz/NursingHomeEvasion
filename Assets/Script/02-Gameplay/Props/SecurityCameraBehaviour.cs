@@ -46,22 +46,30 @@ public class SecurityCameraBehaviour : MonoBehaviour {
 	private void CheckSeniorInView()
 	{
 		bool seniorInView = false;
+		Vector3 hitpos = Vector3.one;
 		
 		foreach (RaycastHit hit in eyes.hits)
 		{
 			if (hit.transform && hit.transform.tag == "Senior")
 			{
+				hitpos = hit.point;
 				seniorInView = true;
 				break;
 			}
 		}
 		
-		if (seniorInView)
+		if (seniorInView && visionCone.status != FOV2DVisionCone.Status.Alert)
 		{
 			visionCone.status = FOV2DVisionCone.Status.Alert;
 			seeSomething = true;
+
+			GameObject enemy = EnemyManager.instance.GetClosestEnemy(hitpos);
+			if( enemy.GetComponent<CaregiverBehaviour>() != null)
+			{
+				enemy.GetComponent<CaregiverBehaviour>().GoToSuspectPosition(hitpos);
+			}
 		}
-		else
+		else if(!seniorInView)
 		{
 			visionCone.status = FOV2DVisionCone.Status.Idle;
 			seeSomething = false;

@@ -12,15 +12,20 @@ public class CaregiverBehaviour : MonoBehaviour {
 	public float _visionAngleAlert = 45;
 	public LayerMask cullingMask;
 
+	public float _searchRadius = 5;
+
 	public enum State 
 	{
 		Idle,
 		Patrol, 
-		Inspect,
+		Search,
 		Chase
 	}
 
 	private State _state;
+	private float _ellapsedTime = 0;
+
+	private Vector3 _lastTargetPosition;
 
 
 	public int _CurrentPathIndex = -1;
@@ -31,6 +36,7 @@ public class CaregiverBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		EnemyManager.instance.RegistryEnemy(this.gameObject);
 
 		agent = GetComponent<NavMeshAgent>();
 
@@ -60,7 +66,29 @@ public class CaregiverBehaviour : MonoBehaviour {
 	private void SetChase()
 	{
 		_state = State.Chase;
-		agent.SetDestination( _target.transform.position );
+		if(_target != null) agent.SetDestination( _target.transform.position );
+	}
+
+	private void SetSearch()
+	{
+		_state = State.Search;
+		if(_target != null) _lastTargetPosition = _target.transform.position;
+		//SearchAtRandomPosition();
+	}
+
+	private void SearchAtRandomPosition()
+	{
+		Vector2 randomPos = Random.insideUnitCircle * _searchRadius;
+		Vector3 seachPos = _lastTargetPosition + new Vector3(randomPos.x,0,randomPos.y);
+
+		agent.SetDestination(seachPos);
+	}
+
+	public void GoToSuspectPosition(Vector3 p_position)
+	{
+		SetSearch();
+		_lastTargetPosition = p_position;
+		agent.SetDestination(_lastTargetPosition);
 	}
 
 	private int GetClosestPatrolPoint()
@@ -70,7 +98,12 @@ public class CaregiverBehaviour : MonoBehaviour {
 
 		for(int i = 1; i < _PatrolPointList.Count; i++)
 		{
-			if(Vector3.Distance(this.transform.position,_PatrolPointList[i].position) < minDistance) iResult = i;
+			float distance = Vector3.Distance(this.transform.position,_PatrolPointList[i].position); 
+			if(distance < minDistance)
+			{
+				minDistance = distance;
+				iResult = i;
+			}
 		}
 		return iResult;
 	}
@@ -88,6 +121,8 @@ public class CaregiverBehaviour : MonoBehaviour {
 			UpdatePatrol(); break;
 		case State.Chase:
 			UpdateChase(); break;
+		case State.Search:
+			UpdateSearch(); break;
 		}
 	}
 
@@ -109,6 +144,20 @@ public class CaregiverBehaviour : MonoBehaviour {
 	{
 	}
 
+	void UpdateSearch()
+	{
+		_ellapsedTime += Time.deltaTime;
+
+		if(_ellapsedTime > SeniorManager.instance._Param.SearchDuration)
+		{
+			SetPatrol();
+		}
+
+		if((agent.pathStatus == NavMeshPathStatus.PathComplete || agent.pathStatus == NavMeshPathStatus.PathPartial ) 
+		   && agent.remainingDistance == 0)  
+			SearchAtRandomPosition();
+	}
+
 	void UpdateVision()
 	{
 		for(int i = 0; i < SeniorManager.instance._seniorsList.Count; i++)
@@ -119,6 +168,10 @@ public class CaregiverBehaviour : MonoBehaviour {
 				_target = SeniorManager.instance._seniorsList[i].gameObject;
 				SetChase();
 			}
+			else if (_state == State.Chase)
+			{
+				SetSearch();
+			}
 		}
 	}
 
@@ -128,17 +181,15 @@ public class CaregiverBehaviour : MonoBehaviour {
 		Vector3 pos = this.transform.position;
 		pos.y = 1;
 		Vector3 direction = playerPos - pos;
+		direction.y = 0;
+		direction.Normalize();
 
 		if(Vector3.Angle(this.transform.forward,direction) > (GetAngleVision()/2)) return false;
 		RaycastHit hit = new RaycastHit();
 
-		Ray ray = new Ray(pos,direction.normalized);
-		Debug.DrawRay(pos,direction.normalized,Color.cyan);
-		Debug.DrawLine(pos,hit.point,Color.yellow);
+		if(!Physics.Raycast(pos,direction,out hit,_visionRadius,cullingMask)) return false;
 
-		Physics.Raycast(ray,out hit,_visionRadius,cullingMask);
 		if(hit.collider == null || hit.collider.tag != "Senior") return false;
-		Debug.Log("I SEEEEEEEEEEEEEE U !");
 		return true;
 	}
 
@@ -146,5 +197,17 @@ public class CaregiverBehaviour : MonoBehaviour {
 	{
 		if(_state == State.Patrol) return _visionAnglePatrol;
 		else return _visionAngleAlert;
+	}
+
+	private void OnDrawGizmosSelected()
+	{
+		for(int i = 0; i < _PatrolPointList.Count; i++)
+		{
+			Gizmos.DrawIcon(_PatrolPointList[i].transform.position,"icon_point.png");
+			int j = i+1;
+			if(j == _PatrolPointList.Count) j = 0;
+
+			Gizmos.DrawLine(_PatrolPointList[i].transform.position,_PatrolPointList[j].transform.position);
+		}
 	}
 }
