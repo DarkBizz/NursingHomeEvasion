@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
 	{
 		void onPointerDown ( int _id ,Vector2 _position );
 		void onPointerUp ( int _id ,Vector2 _position );
-		void onPointerDrag ( int _id ,Vector2 _position );
+		void onPointerDrag ( int _id ,Vector2 _position, Vector2 _displacement );
 	}
 
 	public void registerListener ( Listener _pointerListener ) {
@@ -22,6 +22,9 @@ public class InputManager : MonoBehaviour
 	private static InputManager _instance;
 	public static InputManager instance { get{return _instance;}}
 
+	private bool[] _isPressed = new bool[3];
+	private Vector2 _curPos;
+
 	private List<Listener> _listeners = new List<Listener>();
 
 	void Awake ()
@@ -32,8 +35,25 @@ public class InputManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetMouseButtonDown(0))_sendPointerDown(0,Input.mousePosition);
-		if(Input.GetMouseButtonUp(0))_sendPointerUp(0,Input.mousePosition);
+		Vector2 curPos = Input.mousePosition;
+
+		for(int i = 0; i < 3; i++)
+		{
+			bool isPressed = Input.GetMouseButton(i);
+			if( isPressed!=_isPressed[i] ) {
+				if( isPressed ) _sendPointerDown( i ,curPos );
+				else 			_sendPointerUp( i ,curPos );
+				_isPressed[i] = isPressed;
+			}else if( isPressed && (curPos!=_curPos) ) {
+				_sendPointerDrag ( i ,curPos, curPos - _curPos);
+
+			}
+		}
+		_curPos = curPos;
+	}
+
+	public Vector2 getPointerPosition () {
+		return _curPos;
 	}
 
 	protected void _sendPointerDown ( int _id ,Vector2 _position ) {
@@ -46,8 +66,8 @@ public class InputManager : MonoBehaviour
 			curListener.onPointerUp ( _id ,_position );
 	}
 	
-	protected void _sendPointerDrag ( int _id ,Vector2 _position ) {
+	protected void _sendPointerDrag ( int _id ,Vector2 _position, Vector2 _displacement ) {
 		foreach( Listener curListener in _listeners )
-			curListener.onPointerDrag ( _id ,_position );
+			curListener.onPointerDrag ( _id ,_position,_displacement );
 	}
 }

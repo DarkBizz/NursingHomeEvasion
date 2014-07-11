@@ -45,7 +45,7 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 	public void onPointerUp ( int _id ,Vector2 _position )
 	{
 		// Left click
-		if( _id == 0)
+		if( _id == 1)
 		{
 			onPointerUpLeft(_position);
 		}
@@ -62,10 +62,16 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 		if(_seniorSelected._Type == SeniorBehaviour.SeniorType.Thief)
 		{
 			bHit = ClickOnTagObject(raysHits,"Door",ref hit);
+
 			if(bHit) 
 			{
-				_seniorSelected.GoToDoor(hit.collider.gameObject.GetComponent<DoorBehaviour>());
-				return;
+				DoorBehaviour door = hit.collider.gameObject.GetComponent<DoorBehaviour>(); 
+
+				if(door != null && door._Lock)
+				{
+					_seniorSelected.GoToDoor(door);
+					return;
+				}
 			}
 		}
 	
@@ -97,7 +103,7 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 		return false;
 	}
 
-	public void onPointerDrag ( int _id ,Vector2 _position )
+	public void onPointerDrag ( int _id ,Vector2 _position, Vector2 _displacement )
 	{
 	}
 }

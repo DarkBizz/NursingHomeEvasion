@@ -17,10 +17,17 @@ public class DoorBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		if(_Lock) LockDoor();
-		else UnlockDoor();
+		if(_Lock)
+		{
+			LockDoor();
+		}
+		else
+		{
+			UnlockDoor();
+			_IconPanel.alpha = 0;
+		}
 
-		_IconPanel.alpha = 0;
+
 	}
 	
 	// Update is called once per frame
