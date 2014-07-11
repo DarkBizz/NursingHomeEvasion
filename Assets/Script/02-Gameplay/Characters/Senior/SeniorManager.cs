@@ -13,6 +13,7 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 
 	private static SeniorManager _instance;
 	public static SeniorManager instance {get {return _instance;}}
+    private bool gameOver;
 
 	void Awake()
 	{
@@ -28,7 +29,12 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 	// Update is called once per frame
 	void Update () 
 	{
-	
+        gameOver = _seniorsList[0].busted && _seniorsList[1].busted && _seniorsList[2].busted;
+
+        if (gameOver)
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 
 	public void registerSenior(SeniorBehaviour senior)

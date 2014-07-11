@@ -2375,6 +2375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Type: 1
+  _button: {fileID: 0}
+  busted: 0
 --- !u!195 &339067127
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2776,6 +2778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Type: 1
+  _button: {fileID: 0}
+  busted: 0
 --- !u!4 &406685373
 Transform:
   m_ObjectHideFlags: 0
@@ -2843,59 +2847,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 7
   m_ObstacleAvoidanceType: 4
---- !u!1 &441674813
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 441674816}
-  - 114: {fileID: 441674815}
-  - 65: {fileID: 441674814}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &441674814
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 441674813}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &441674815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 441674813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f4f15deecd4d2f4fbb8f0612460177c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneToLoad: 
---- !u!4 &441674816
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 441674813}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.3499289, y: .914662361, z: 6.20899677}
-  m_LocalScale: {x: 6.07512617, y: 8.00807285, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
 --- !u!1 &469625986
 GameObject:
   m_ObjectHideFlags: 0
@@ -5866,6 +5817,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Type: 1
+  _button: {fileID: 0}
+  busted: 0
 --- !u!195 &1534801807
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6025,7 +5978,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1564386971}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -328.265686, y: 23.6161804, z: 0}
+  m_LocalPosition: {x: -310.553528, y: 23.6161804, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 918976932}
@@ -6234,7 +6187,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1592548146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -328.265686, y: -64.9446869, z: 0}
+  m_LocalPosition: {x: -310.553528, y: -64.9446869, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 162446162}
@@ -6905,7 +6858,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1796911243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -328.265686, y: 112.177048, z: 0}
+  m_LocalPosition: {x: -310.553528, y: 112.177048, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1728605840}
