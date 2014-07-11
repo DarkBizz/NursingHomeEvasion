@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: Senior Parameters
   m_EditorClassIdentifier: 
   TimeToUnlockDoor: 2
+  SearchDuration: 15
