@@ -26,6 +26,19 @@ public class CameraController  : MonoBehaviour, InputManager.Listener
 	
 	public void onPointerUp ( int _id ,Vector2 _position )
 	{
+		Ray ray = Camera.main.ScreenPointToRay(_position);
+		RaycastHit[] raysHits = Physics.RaycastAll(ray);
+		RaycastHit hit = new RaycastHit();
+		bool bHit;
+
+		bHit = ClickOnTagObject(raysHits,"Senior",ref hit);
+		
+		if(bHit) 
+		{
+			//TODO: changer de perso
+			GoToPosition(hit.point);
+			SeniorManager.instance._seniorSelected = hit.collider.gameObject.GetComponent<SeniorBehaviour>();
+		}
 	}
 	
 	public void onPointerDrag ( int _id ,Vector2 _position , Vector2 _displacement)
@@ -43,13 +56,30 @@ public class CameraController  : MonoBehaviour, InputManager.Listener
 		Zoffset *= _displacement.y * _speed;
 		Zoffset /= Screen.height;
 
-		Vector3 camPos = _camera.transform.position + Xoffset + Zoffset;
+		Vector3 camPos = this.transform.parent.transform.position + Xoffset + Zoffset;
 
-		_camera.transform.position = camPos;
+		this.transform.parent.transform.position = camPos;
 	}
 
 
-	private void GoToPosition()
+	public void GoToPosition(Vector3 _position)
+	{	
+		Vector3 _newPosition = _position;
+		_position.y = this.transform.parent.transform.position.y;
+
+		this.transform.parent.transform.position = _position;
+	}
+
+	private bool ClickOnTagObject(RaycastHit[] raysHits, string p_tag, ref RaycastHit p_Hit )
 	{
+		for( int i = 0; i < raysHits.Length; i++)
+		{
+			if (raysHits[i].collider.tag == p_tag)
+			{
+				p_Hit = raysHits[i];
+				return true;
+			}	
+		}
+		return false;
 	}
 }

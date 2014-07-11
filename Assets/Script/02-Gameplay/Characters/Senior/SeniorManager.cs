@@ -7,7 +7,7 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 
 	public List<SeniorBehaviour> _seniorsList = new List<SeniorBehaviour>();
 	public SeniorBehaviour _seniorSelected;
-	public ParticleSystem _cursor; 
+	public ParticleSystem _cursor;
 
 	public SeniorConfig _Param;
 
@@ -37,7 +37,6 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 		_seniorsList.Add(senior);
 	}
 
-
 	public void onPointerDown ( int _id ,Vector2 _position )
 	{
 	}
@@ -57,7 +56,6 @@ public class SeniorManager : MonoBehaviour, InputManager.Listener
 		RaycastHit[] raysHits = Physics.RaycastAll(ray);
 		RaycastHit hit = new RaycastHit();
 		bool bHit;
-
 
 		if(_seniorSelected._Type == SeniorBehaviour.SeniorType.Thief)
 		{
